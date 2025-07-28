@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>European Travel Assistant</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="sidebar.css" />
 </head>
 
 <body>
@@ -15,11 +16,9 @@
   </header>
 
   <main>
-    <!-- Chat container -->
-    <div class="chat-container">
-      <div id="chat-box" class="chat-box"></div>
 
-      <!-- Typing Indicator -->
+    <div class="chat-container draggable" id="chat-window">
+      <div id="chat-box" class="chat-box"></div>
       <div id="typing-indicator" class="typing-indicator" style="display: none;">
         <em>🤖 Typing...</em>
       </div>
@@ -28,14 +27,22 @@
         <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" required />
         <button type="submit">Send</button>
       </form>
+      <div class="resize-handle"></div>
     </div>
-
-
   </main>
 
-  <footer>
-    <p>© 2025 European Travel Assistant </p>
-  </footer>
+  <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle sidebar">&#x25C0;</button>
+  <aside class="left-sidebar">
+    <h2>MENU</h2>
+    <div class="sidebar-buttons">
+      <button class="sidebar-btn landmarks-btn" title="Landmarks"></button>
+      <button class="sidebar-btn cuisine-btn" title="Cuisine"></button>
+      <button class="sidebar-btn culture-btn" title="Culture"></button>
+      <button class="sidebar-btn itinerary-btn" title="Itinerary"></button>
+    </div>
+  </aside>
+
+ 
 
   <script src="script.js"></script>
 </body>

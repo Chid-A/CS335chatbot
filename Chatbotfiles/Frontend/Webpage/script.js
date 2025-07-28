@@ -113,3 +113,133 @@ function addMessageToChat(message, className) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+
+const chatWindow = document.getElementById("chat-window");
+
+// Add handles for all 4 sides
+const handles = {
+  right: document.createElement("div"),
+  left: document.createElement("div"),
+  top: document.createElement("div"),
+  bottom: document.createElement("div"),
+  topLeft: document.createElement("div"),
+  topRight: document.createElement("div"),
+  bottomLeft: document.createElement("div"),
+  bottomRight: document.createElement("div"),
+};
+handles.right.className = "resize-handle handle-right";
+handles.left.className = "resize-handle handle-left";
+handles.top.className = "resize-handle handle-top";
+handles.bottom.className = "resize-handle handle-bottom";
+handles.topLeft.className = "resize-handle handle-top-left";
+handles.topRight.className = "resize-handle handle-top-right";
+handles.bottomLeft.className = "resize-handle handle-bottom-left";
+handles.bottomRight.className = "resize-handle handle-bottom-right";
+chatWindow.appendChild(handles.right);
+chatWindow.appendChild(handles.left);
+chatWindow.appendChild(handles.top);
+chatWindow.appendChild(handles.bottom);
+chatWindow.appendChild(handles.topLeft);
+chatWindow.appendChild(handles.topRight);
+chatWindow.appendChild(handles.bottomLeft);
+chatWindow.appendChild(handles.bottomRight);
+
+let isDragging = false;
+let isResizing = false;
+let resizeDir = null;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+let initialRect = null;
+
+// Dragging
+chatWindow.addEventListener("mousedown", (e) => {
+  if (e.target.classList.contains("resize-handle")) return;
+  isDragging = true;
+  const rect = chatWindow.getBoundingClientRect();
+  dragOffsetX = e.clientX - rect.left;
+  dragOffsetY = e.clientY - rect.top;
+  initialRect = rect;
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (isDragging) {
+    let newLeft = e.clientX - dragOffsetX;
+    let newTop = e.clientY - dragOffsetY;
+    newLeft = Math.max(0, Math.min(window.innerWidth - chatWindow.offsetWidth, newLeft));
+    newTop = Math.max(0, Math.min(window.innerHeight - chatWindow.offsetHeight, newTop));
+    chatWindow.style.position = "fixed";
+    chatWindow.style.left = `${newLeft}px`;
+    chatWindow.style.top = `${newTop}px`;
+  } else if (isResizing && resizeDir) {
+    const minWidth = 250, minHeight = 200;
+    const rect = initialRect;
+    const right = rect.right;
+    const bottom = rect.bottom;
+    const left = rect.left;
+    const top = rect.top;
+
+    if (resizeDir === "right") {
+      let maxWidth = window.innerWidth - left;
+      let newWidth = Math.max(minWidth, Math.min(maxWidth, e.clientX - left));
+      chatWindow.style.width = `${newWidth}px`;
+    } else if (resizeDir === "left") {
+      let minLeft = 0;
+      let maxLeft = right - minWidth;
+      let newLeft = Math.max(minLeft, Math.min(maxLeft, e.clientX));
+      let newWidth = right - newLeft;
+      // Prevent overflow to the right
+      if (newLeft + newWidth > window.innerWidth) {
+        newWidth = window.innerWidth - newLeft;
+      }
+      chatWindow.style.left = `${newLeft}px`;
+      chatWindow.style.width = `${newWidth}px`;
+      return;
+    } else if (resizeDir === "top") {
+      let minTop = 0;
+      let maxTop = bottom - minHeight;
+      let newTop = Math.max(minTop, Math.min(maxTop, e.clientY));
+      let newHeight = bottom - newTop;
+      // Prevent overflow to the bottom
+      if (newTop + newHeight > window.innerHeight) {
+        newHeight = window.innerHeight - newTop;
+      }
+      chatWindow.style.top = `${newTop}px`;
+      chatWindow.style.height = `${newHeight}px`;
+      return;
+    } else if (resizeDir === "bottom") {
+      let maxHeight = window.innerHeight - top;
+      let newHeight = Math.max(minHeight, Math.min(maxHeight, e.clientY - top));
+      chatWindow.style.height = `${newHeight}px`;
+      return;
+    }
+  }
+});
+
+document.addEventListener("mouseup", () => {
+  isDragging = false;
+  isResizing = false;
+  resizeDir = null;
+});
+
+// Resizing
+Object.entries(handles).forEach(([dir, handle]) => {
+  handle.addEventListener("mousedown", (e) => {
+    isResizing = true;
+    resizeDir = dir;
+    const rect = chatWindow.getBoundingClientRect();
+    initialRect = rect;
+    e.stopPropagation();
+  });
+});
+
+const sidebar = document.querySelector('.left-sidebar');
+const sidebarToggle = document.getElementById('sidebar-toggle');
+
+sidebarToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('collapsed');
+  sidebarToggle.classList.toggle('collapsed');
+
+  
+  // Change arrow direction
+  sidebarToggle.innerHTML = sidebar.classList.contains('collapsed') ? '&#x25B6;' : '&#x25C0;';
+});
