@@ -110,23 +110,22 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
 }
 
-/* Example images, replace with your own if desired */
+/*land marks*/
 .landmarks-btn {
   background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80');
-  /* Eiffel Tower */
 }
 
+/*Cuisine*/
 .cuisine-btn {
   background-image: url('https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80');
-  /* Food */
 }
 
+/*culture*/
 .culture-btn {
   background-image: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80');
-  /* Museum */
 }
 
+/*plannig*/
 .itinerary-btn {
   background-image: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80');
-  /* Map */
 }
