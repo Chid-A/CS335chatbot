@@ -104,27 +104,6 @@ document.getElementById("chat-form").addEventListener("submit", async (event) =>
   speakText(botReply);
 });
 
-// Initial greeting on page load
-window.addEventListener("DOMContentLoaded", async () => {
-  const initialGreeting = "Hello! I'm your European Travel Assistant. Ask me about famous landmarks, delicious cuisine, or unique cultures all across Europe. How may I help you today?";
-
-  // Show typing indicator
-  const chatBox = document.getElementById("chat-box");
-  const typingDiv = document.createElement("div");
-  typingDiv.className = "bot-message typing-indicator";
-  typingDiv.textContent = "👩 Typing...";
-  chatBox.appendChild(typingDiv);
-  chatBox.scrollTop = chatBox.scrollHeight;
-
-
-  // Simulate delay (0.8 - 1 second)
-  const delay = Math.random() * (1000 - 800) + 1200;
-  await new Promise((resolve) => setTimeout(resolve, delay));
-  chatBox.removeChild(typingDiv);
-  addMessageToChat("👩 " + initialGreeting, "bot-message");
-  speakText(initialGreeting);
-});
-
 function addMessageToChat(message, className) {
   const chatBox = document.getElementById("chat-box");
   const messageDiv = document.createElement("div");
@@ -208,7 +187,6 @@ document.addEventListener("mousemove", (e) => {
       let maxLeft = right - minWidth;
       let newLeft = Math.max(minLeft, Math.min(maxLeft, e.clientX));
       let newWidth = right - newLeft;
-      
       // Prevent overflow to the right
       if (newLeft + newWidth > window.innerWidth) {
         newWidth = window.innerWidth - newLeft;
@@ -221,7 +199,6 @@ document.addEventListener("mousemove", (e) => {
       let maxTop = bottom - minHeight;
       let newTop = Math.max(minTop, Math.min(maxTop, e.clientY));
       let newHeight = bottom - newTop;
-
       // Prevent overflow to the bottom
       if (newTop + newHeight > window.innerHeight) {
         newHeight = window.innerHeight - newTop;
@@ -255,8 +232,6 @@ Object.entries(handles).forEach(([dir, handle]) => {
   });
 });
 
-
-//sidebar script
 const sidebar = document.querySelector('.left-sidebar');
 const sidebarToggle = document.getElementById('sidebar-toggle');
 
@@ -264,7 +239,7 @@ sidebarToggle.addEventListener('click', () => {
   sidebar.classList.toggle('collapsed');
   sidebarToggle.classList.toggle('collapsed');
 
-
+  
   // Change arrow direction
   sidebarToggle.innerHTML = sidebar.classList.contains('collapsed') ? '&#x25B6;' : '&#x25C0;';
 });
